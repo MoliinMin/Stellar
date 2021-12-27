@@ -5,9 +5,10 @@ project(Stellar)
 
 add_definitions(-DSTELLAR_EXPORTS)
 
-set(THIRD_PARTY_PATH "E:/third party/deptrum")
+set(THIRD_PARTY_PATH "D:/third party/deptrum")
 
 include_directories(${THIRD_PARTY_PATH}/include)
+message(WARNING ${THIRD_PARTY_PATH}/include)
 link_directories(${THIRD_PARTY_PATH}/libs)
 
 set(THIRD_PARTY_LIBS  deptrum_aurora
@@ -18,8 +19,9 @@ set(THIRD_PARTY_LIBS  deptrum_aurora
 	                  libpng
 	                  zlib)
 		
-		
-add_library(deptrum_device SHARED 
+
+
+add_library(deptrum_device STATIC 
             deptrum_device.cc
             deptrum_device.h)
 			

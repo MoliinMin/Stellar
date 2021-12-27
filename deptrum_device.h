@@ -4,23 +4,34 @@
 #include "opencv2/opencv.hpp"
 #include "deptrum/deptrum.h"
 
-
-#if defined(_MSC_VER)||defined(_WIN32)||defined(_WIN64)
-#ifdef STELLAR_EXPORTS
-#define STELLAR_API _declspec(dllexport)
-#else
-#define STELLAR_API _declspec(dllimport)
-#endif
-#else
-#define STELLAR_API
-#endif
-
-#define DEFUALT_DEVICE_INDEX 0
- using namespace std;
  using namespace deptrum;
  using namespace deptrum::aurora;
+#define DEFAULT_DEVICE_INDEX 0
 
-extern "C" STELLAR_API void  __stdcall TestDevice();
+ class DeptrumDevice
+ {
+ public:
+	 DeptrumDevice();
+	 ~DeptrumDevice();
+	 bool CreateDevice();
+
+	 bool OpenDevice();
+
+	 void CreateStream();
+
+
+
+      
+
+
+
+
+ private:
+	 Device *global_device;
+
+
+ };
+
 
 
 
