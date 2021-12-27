@@ -4,6 +4,7 @@
 #include "opencv2/opencv.hpp"
 #include "deptrum/deptrum.h"
 
+
  using namespace deptrum;
  using namespace deptrum::aurora;
 #define DEFAULT_DEVICE_INDEX 0
@@ -17,19 +18,24 @@
 
 	 bool OpenDevice();
 
-	 void CreateStream();
+	 bool CreateStream();
 
+	 bool AllocateMemery();
 
+	 bool StartCapture();
 
-      
-
-
-
+	 bool GetFrame(cv::Mat &output_depth_frame,cv::Mat &output_rgb_frame);
 
  private:
+
+
+ 
+ private:
 	 Device *global_device;
-
-
+	 Stream * depth_stream;
+	 Stream * rgb_stream;
+	 deptrum::Frame rgb_frame;
+	 deptrum::Frame depth_frame;
  };
 
 

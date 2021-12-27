@@ -1,6 +1,6 @@
 #include "deptrum_device.h"
 
-DeptrumDevice::DeptrumDevice():global_device(nullptr)
+DeptrumDevice::DeptrumDevice():global_device(nullptr), depth_stream(nullptr), rgb_stream(nullptr)
 {
 
 }
@@ -39,14 +39,69 @@ bool DeptrumDevice::OpenDevice()
 		                            deptrum::FrameMode::kRes480x640RgbJpeg,
 		                            deptrum::FrameMode::kRes400x640Depth16Bit);
 	if (result != 0)
+	{    
+		return false;
+	}
+	return true;
+}
+
+bool DeptrumDevice::CreateStream()
+{
+	int result = global_device->CreateStream(&depth_stream, deptrum::kDepth);
+	if (result != 0)
+	{
+		return false;
+	}
+	result = global_device->CreateStream(&rgb_stream,deptrum::kRgb);
+	if (result != 0)
 	{
 		return false;
 	}
 	return true;
 }
 
-void DeptrumDevice::CreateStream()
+bool DeptrumDevice::AllocateMemery()
+{
+	int result = depth_stream->AllocateFrame(depth_frame);
+	if (result != 0)
+		return false;
+	result = rgb_stream->AllocateFrame(rgb_frame);
+	if (result != 0)
+		return false;
+	return true;
+}
+
+bool DeptrumDevice::StartCapture()
+{
+	rgb_stream->Start();
+	depth_stream->Start();
+}
+
+bool DeptrumDevice::GetFrame(cv::Mat &output_depth_frame, cv::Mat &output_rgb_frame)
 {
 	
+	int result=rgb_stream->GetFrame(rgb_frame,2000);
+	if (result!=0)
+	{
+		return false;
+	}
+	result=depth_stream->GetFrame(depth_frame,2000);
+	if (result!=0)
+	{
+		return false;
+	}
+	const size_t  rgb_width = rgb_frame.cols;
+	const size_t rgb_height = rgb_frame.rows;
+	
+	const size_t depth_width = depth_frame.cols;
+	const size_t depth_height = depth_frame.rows;
+	cv::Mat rgb_mat, depth_mat;
+	rgb_mat = cv::Mat(rgb_height,rgb_width,CV_8UC3,(uint8_t*)rgb_frame.data);
+	depth_mat = cv::Mat(rgb_height, rgb_width, CV_16UC1, (uint16_t*)depth_frame.data);
+	
+	output_depth_frame = depth_mat.clone();
+	output_rgb_frame = rgb_mat.clone();
+
+	return true;
 }
 

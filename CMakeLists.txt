@@ -26,3 +26,8 @@ add_library(deptrum_device STATIC
             deptrum_device.h)
 			
 target_link_libraries(deptrum_device ${THIRD_PARTY_LIBS})
+
+
+#add_executable(deptrum_runner deptrum_runner.cc)
+
+#target_link_libraries(deptrum_runner deptrum_device)
