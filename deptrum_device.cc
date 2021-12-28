@@ -18,8 +18,10 @@ bool DeptrumDevice::CreateDevice()
 	size_t device_conut = device_list.size();
 	if (device_conut<1)
 	{
+		std::cout << "can not find any device" << std::endl;
 		return false;
 	}
+    std::cout << "Device count: " << device_conut << std::endl;
 	result = Device::Create(&global_device, device_list[DEFAULT_DEVICE_INDEX]);
 	if (result != 0)
 	{
@@ -75,6 +77,7 @@ bool DeptrumDevice::StartCapture()
 {
 	rgb_stream->Start();
 	depth_stream->Start();
+	return true;
 }
 
 bool DeptrumDevice::GetFrame(cv::Mat &output_depth_frame, cv::Mat &output_rgb_frame)
@@ -86,6 +89,7 @@ bool DeptrumDevice::GetFrame(cv::Mat &output_depth_frame, cv::Mat &output_rgb_fr
 		return false;
 	}
 	result=depth_stream->GetFrame(depth_frame,2000);
+
 	if (result!=0)
 	{
 		return false;
@@ -97,11 +101,24 @@ bool DeptrumDevice::GetFrame(cv::Mat &output_depth_frame, cv::Mat &output_rgb_fr
 	const size_t depth_height = depth_frame.rows;
 	cv::Mat rgb_mat, depth_mat;
 	rgb_mat = cv::Mat(rgb_height,rgb_width,CV_8UC3,(uint8_t*)rgb_frame.data);
-	depth_mat = cv::Mat(rgb_height, rgb_width, CV_16UC1, (uint16_t*)depth_frame.data);
+	depth_mat = cv::Mat(depth_height, depth_width, CV_16UC1, (uint16_t*)depth_frame.data);
 	
 	output_depth_frame = depth_mat.clone();
 	output_rgb_frame = rgb_mat.clone();
 
 	return true;
+}
+
+void DeptrumDevice::DestoryDevice()
+{
+	Stream::ReleaseFrame(rgb_frame);
+	Stream::ReleaseFrame(depth_frame);
+
+	rgb_stream->Stop();
+	depth_stream->Stop();
+	global_device->DestroyStream(&depth_stream);
+	global_device->DestroyStream(&rgb_stream);
+	global_device->Close();
+	Device::Destroy(&global_device);
 }
 

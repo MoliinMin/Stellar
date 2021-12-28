@@ -28,6 +28,7 @@ add_library(deptrum_device STATIC
 target_link_libraries(deptrum_device ${THIRD_PARTY_LIBS})
 
 
-#add_executable(deptrum_runner deptrum_runner.cc)
+add_executable(deptrum_runner deptrum_runner.cc)
 
-#target_link_libraries(deptrum_runner deptrum_device)
+target_link_libraries(deptrum_runner deptrum_device
+                                     ${THIRD_PARTY_LIBS})

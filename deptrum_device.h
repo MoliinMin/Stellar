@@ -26,6 +26,28 @@
 
 	 bool GetFrame(cv::Mat &output_depth_frame,cv::Mat &output_rgb_frame);
 
+	 void DestoryDevice();
+
+	 int GetRgbFrameWidth() const
+	 {
+		 return rgb_frame.cols;
+	 }
+
+	 int GetRgbFrameHeight() const
+	 {
+	 
+		 return rgb_frame.rows;
+	 }
+
+	 int GetDepthFrameHeight() const
+	 {
+		 return depth_frame.cols;
+	 }
+     
+	 int GetDepthFrameWidth() const
+	 {
+		return  depth_frame.rows;
+	 }
  private:
 
 
