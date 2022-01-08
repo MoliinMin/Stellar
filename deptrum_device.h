@@ -48,6 +48,14 @@
 	 {
 		return  depth_frame.rows;
 	 }
+
+	 void GetDeviceParams(cv::Mat &output_ir_camera_params,
+		                  cv::Mat &output_ir_distortion_params,
+		                  cv::Mat &output_rgb_camera_params,
+		                  cv::Mat &output_rgb_distortion_params,
+		                  cv::Mat &output_rotate_matrix,
+		                  cv::Mat &output_translate_matrix);
+
  private:
 
 
