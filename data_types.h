@@ -1,11 +1,14 @@
+#ifndef DATA_TYPE_H
+#define DATA_TYPE_H
 #include "cuda_runtime.h"
 
 #include <opencv2/core/cuda.hpp>
 #include <opencv2/core/cuda_types.hpp>
-// #include "eigen3/Eigen/Core"
-// #include "eigen3/Eigen/Eigen"
+
+ 
 
 using cv::cuda::GpuMat;
+
 
 struct CameraParams
 {
@@ -15,3 +18,11 @@ struct CameraParams
 	float c_x, c_y;
 };
  
+struct PointXyz
+{
+	float x;
+	float y;
+	float z;
+};
+
+#endif
