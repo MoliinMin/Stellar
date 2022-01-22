@@ -6,7 +6,7 @@ project(Stellar)
 add_definitions(-DSTELLAR_EXPORTS)
 
 
-find_package(CUDA 10.0 REQUIRED)
+find_package(CUDA 11.5 REQUIRED)
 IF (CUDA_FOUND)
     include_directories("${CUDA_INCLUDE_DIRS}")
 	 message(WARNING "find cuda")
@@ -14,7 +14,7 @@ IF (CUDA_FOUND)
     SET(CUDA_NVCC_FLAGS ${CUDA_NVCC_FLAGS};-O3;-std=c++11 -gencode arch=compute_61,code=sm_61)
 ENDIF ()
 
-set(THIRD_PARTY_PATH "E:/third party/windows-amd64")
+set(THIRD_PARTY_PATH "D:/third party/third party/third party/windows-amd64")
 
 include_directories(${THIRD_PARTY_PATH}/deptrum/include)
 message(WARNING ${THIRD_PARTY_PATH}/deptrum/include)
@@ -64,9 +64,10 @@ cuda_add_library(utils STATIC utils.h
 target_link_libraries(utils ${OPENCV_CUDA_LIBS})
 
 
+
 add_library(deptrum_device STATIC 
             deptrum_device.h
-			data_types.h
+			
             deptrum_device.cc
            )
 			
@@ -95,6 +96,15 @@ target_link_libraries(deptrum_runner deptrum_device
                                      ${THIRD_PARTY_LIBS})
 
 
+add_library(Stellar STATIC stellar_impl.h
+                           stellar.h
+						   data_types.h
+						   stellar_impl.cc)
 
+target_link_libraries(Stellar surface_measurement
+                              point_cloud_generator
+							  deptrum_device
+                              ${THIRD_PARTY_LIBS}
+							  ${OPENCV_CUDA_LIBS})
 
 

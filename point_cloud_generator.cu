@@ -76,7 +76,7 @@ __device__ void normalize(float3 &input_vector)
 	input_vector = make_float3(x, y, z);
 }
 
-void ComputeVertexMap(GpuMat output_vertex_map, const GpuMat input_depth_map, const float data_cutoff, const CameraParams &camera_params)
+void ComputeVertexMap(GpuMat &output_vertex_map, const GpuMat &input_depth_map, const float data_cutoff, const CameraParams &camera_params)
 {
 	int cols = input_depth_map.cols;
 	int rows = input_depth_map.rows;
@@ -85,6 +85,7 @@ void ComputeVertexMap(GpuMat output_vertex_map, const GpuMat input_depth_map, co
 	dim3 blocks((cols + threads.x - 1) / threads.x, (rows + threads.y - 1) / threads.y);
 
 	GpuComputeVertexMap << <blocks, threads >> > (output_vertex_map, input_depth_map, data_cutoff, camera_params);
+	cudaThreadSynchronize();
 }
 
 
@@ -97,5 +98,6 @@ void ComputeNormalMap(GpuMat &output_normal_map, const GpuMat &input_vertex_map)
 	dim3 blocks((cols + threads.x - 1) / threads.x, (rows + threads.y - 1) / threads.y);
 
 	GpuComputeNormalMap<<<blocks,threads>>>(output_normal_map, input_vertex_map);
+	cudaThreadSynchronize(); 
 
 }

@@ -8,8 +8,12 @@ public:
 
 	void GeneratePointCloud(const GpuMat &input_depth_map,std::vector<PointXyz> &output_point_cloud);
 
+	void Init(std::shared_ptr<CameraParams> camera_params_);
+
+	void Run(const cv::Mat );
+
 private:
-	CameraParams camera_params;
+	std::shared_ptr<CameraParams> camera_params;
 };
 
 
