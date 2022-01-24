@@ -2,11 +2,11 @@
 #define STELLAR_H
 
 #include "data_types.h"
-#include ""
+
 
 enum StellarErrors
 {
-
+	OK = 0
 
 };
 class Stellar

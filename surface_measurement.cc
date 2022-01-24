@@ -11,8 +11,15 @@ void SurfaceMeasurement::GeneratePointCloud(const GpuMat &input_depth_map, std::
 	//ComputeVertexMap(output_vertex_map, input_depth_map, cutoff_val, camera_params);
 }
 
-void SurfaceMeasurement::Init(std::shared_ptr<CameraParams> camera_params_)
+void SurfaceMeasurement::Init(std::shared_ptr<StellarParams> stellar_params_,
+	                          std::shared_ptr<CameraParamsPyramid> camera_params_pyramid_)
 {
-	camera_params = camera_params_;
+	camera_params_pyramid = camera_params_pyramid_;
+	stellar_params = stellar_params_;
+}
+
+void SurfaceMeasurement::Run(const cv::Mat &input_depth_map, const cv::Mat &input_rgb_map)
+{
+
 }
 

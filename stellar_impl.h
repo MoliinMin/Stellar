@@ -2,8 +2,8 @@
 #ifndef STELLAR_IMPL_H
 #define STELLAR_IMPL_H
 #include "stellar.h"
-#include "data_types.h"
-
+#include "deptrum_device.h"
+#include "global.h"
 class StellarImpl:public Stellar
 {
 
@@ -21,7 +21,10 @@ public:
 
 	StellarErrors StellarFusion() override;
 private:
-	CameraParamsPyramid camera_params_pyramid;
+	CameraParamsPyramid depth_camera_params_pyramid;
+	
+	DeptrumDevice deptrum_device;
+
 
 
 };

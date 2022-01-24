@@ -67,7 +67,6 @@ target_link_libraries(utils ${OPENCV_CUDA_LIBS})
 
 add_library(deptrum_device STATIC 
             deptrum_device.h
-			
             deptrum_device.cc
            )
 			
@@ -99,6 +98,7 @@ target_link_libraries(deptrum_runner deptrum_device
 add_library(Stellar STATIC stellar_impl.h
                            stellar.h
 						   data_types.h
+						   global.h
 						   stellar_impl.cc)
 
 target_link_libraries(Stellar surface_measurement
