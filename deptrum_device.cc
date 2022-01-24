@@ -177,8 +177,5 @@ void DeptrumDevice::GetDeviceParams(cv::Mat &output_ir_camera_params,
 	output_translate_matrix.at<float>(1, 0) = ir_rgb_extrinsic.translation_vector[1];
 	output_translate_matrix.at<float>(2, 0) = ir_rgb_extrinsic.translation_vector[2];
 
-
-
-
 }
 
