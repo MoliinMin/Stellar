@@ -1,8 +1,8 @@
 #ifndef POINT_CLOUD_GENERATOR_H
 #define POINT_CLOUD_GENERATOR_H
 
-#include "data_types.h"
-#include "global.h"
+#include "../data_types.h"
+#include "../global.h"
 #include <opencv2/core/cuda_types.hpp>
 #include <opencv2/core/cuda.hpp>
 #include <opencv2/opencv.hpp>

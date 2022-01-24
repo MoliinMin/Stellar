@@ -58,10 +58,6 @@ set(OPENCV_CUDA_LIBS opencv_core3414
 include_directories(${THIRD_PARTY_PATH}/pcl/3rdParty/Eigen)
 
 
-cuda_add_library(utils STATIC utils.h 
-                              utils.cu)
-
-target_link_libraries(utils ${OPENCV_CUDA_LIBS})
 
 
 
@@ -73,12 +69,7 @@ add_library(deptrum_device STATIC
 target_link_libraries(deptrum_device ${THIRD_PARTY_LIBS})
 
 
-cuda_add_library(point_cloud_generator STATIC  
-                 point_cloud_generator.h
-				 point_cloud_generator.cu)
 
-target_link_libraries(point_cloud_generator ${OPENCV_CUDA_LIBS}
-                                            utils)
 
 add_library(surface_measurement STATIC 
             surface_measurement.h
@@ -113,4 +104,4 @@ target_link_libraries(stellar_runner Stellar
                                      ${OPENCV_CUDA_LIBS})
 					
 
-
+add_subdirectory(cuda)

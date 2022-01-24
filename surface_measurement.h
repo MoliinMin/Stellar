@@ -1,6 +1,6 @@
 #ifndef SURFACE_MEASUREMENT_H
 #define SURFACE_MEASUREMENT_H
-#include "point_cloud_generator.h"
+#include "cuda/point_cloud_generator.h"
 #include "data_types.h"
 #include <opencv2/cudaarithm.hpp>
 #include <opencv2/imgproc.hpp>
