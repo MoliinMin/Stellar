@@ -25,6 +25,7 @@ private:
 	
 	DeptrumDevice deptrum_device;
 
+	FrameData global_frame_data;
 
 
 };

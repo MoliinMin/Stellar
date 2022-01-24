@@ -18,7 +18,7 @@ void SurfaceMeasurement::Init(std::shared_ptr<StellarParams> stellar_params_,
 	stellar_params = stellar_params_;
 }
 
-void SurfaceMeasurement::Run(const cv::Mat &input_depth_map, const cv::Mat &input_rgb_map)
+void SurfaceMeasurement::Run(FrameData &output_frame_data, cv::Mat &input_depth_map, const cv::Mat &input_rgb_map)
 {
 
 }

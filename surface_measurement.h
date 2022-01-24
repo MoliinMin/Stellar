@@ -10,7 +10,7 @@ public:
 
 	void Init(std::shared_ptr<StellarParams> stellar_params_,std::shared_ptr<CameraParamsPyramid> camera_params_pyramid_);
 
-	void Run(const cv::Mat );
+	void Run(const cv::Mat &input_depth_map, const cv::Mat &input_rgb_map);
 
 private:
 	std::shared_ptr<CameraParamsPyramid> camera_params_pyramid;

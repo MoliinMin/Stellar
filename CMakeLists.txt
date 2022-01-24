@@ -6,7 +6,7 @@ project(Stellar)
 add_definitions(-DSTELLAR_EXPORTS)
 
 
-find_package(CUDA 11.5 REQUIRED)
+find_package(CUDA 10.0 REQUIRED)
 IF (CUDA_FOUND)
     include_directories("${CUDA_INCLUDE_DIRS}")
 	 message(WARNING "find cuda")
@@ -14,7 +14,7 @@ IF (CUDA_FOUND)
     SET(CUDA_NVCC_FLAGS ${CUDA_NVCC_FLAGS};-O3;-std=c++11 -gencode arch=compute_61,code=sm_61)
 ENDIF ()
 
-set(THIRD_PARTY_PATH "D:/third party/third party/third party/windows-amd64")
+set(THIRD_PARTY_PATH "E:/third party/windows-amd64")
 
 include_directories(${THIRD_PARTY_PATH}/deptrum/include)
 message(WARNING ${THIRD_PARTY_PATH}/deptrum/include)

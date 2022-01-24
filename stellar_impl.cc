@@ -34,7 +34,16 @@ StellarErrors StellarImpl::Initialize(const StellarParams &stellar_params)
 		depth_camera_params_pyramid.camera_params_pyramid[level].c_y = rgb_camera_matrix.at<float>(1, 2)*scale_inv;
 	}
 	//allocate gpu data
-
+	for (int level=0;level<pyramid_levels;++level)
+	{
+		const int image_width = depth_camera_params_pyramid.camera_params_pyramid[level].image_width;
+		const int image_height = depth_camera_params_pyramid.camera_params_pyramid[level].image_height;
+		global_frame_data.depth_pyramid[level] = cv::cuda::createContinuous(image_height,image_width,CV_32FC1);
+		global_frame_data.smooth_depth_pyramid[level] = cv::cuda::createContinuous(image_height,image_width,CV_32FC1);
+		global_frame_data.color_pyramid[level] = cv::cuda::createContinuous(image_height,image_width,CV_8UC3);
+		global_frame_data.vertex_pyramid[level] = cv::cuda::createContinuous(image_height,image_width,CV_32FC3);
+		global_frame_data.normal_pyramid[level] = cv::cuda::createContinuous(image_height,image_width,CV_32FC3);
+	}
 
 
 	return StellarErrors::OK;
