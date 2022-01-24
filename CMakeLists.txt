@@ -106,5 +106,11 @@ target_link_libraries(Stellar surface_measurement
 							  deptrum_device
                               ${THIRD_PARTY_LIBS}
 							  ${OPENCV_CUDA_LIBS})
+					
+add_executable(stellar_runner stellar_runner.cc)
+
+target_link_libraries(stellar_runner Stellar
+                                     ${OPENCV_CUDA_LIBS})
+					
 
 

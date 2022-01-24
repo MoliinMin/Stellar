@@ -1,5 +1,15 @@
 #include "stellar_impl.h"
 
+Stellar *Stellar::Create()
+{
+	return new StellarImpl();
+}
+
+void Stellar::Destory(Stellar *stellar_object)
+{
+	delete stellar_object;
+}
+
 StellarErrors StellarImpl::Initialize(const StellarParams &stellar_params)
 {
 	//create camera device
@@ -44,6 +54,9 @@ StellarErrors StellarImpl::Initialize(const StellarParams &stellar_params)
 		global_frame_data.vertex_pyramid[level] = cv::cuda::createContinuous(image_height,image_width,CV_32FC3);
 		global_frame_data.normal_pyramid[level] = cv::cuda::createContinuous(image_height,image_width,CV_32FC3);
 	}
+	//
+	surface_measurement.Init(std::make_shared<StellarParams>(stellar_params),
+		                     std::make_shared<CameraParamsPyramid>(depth_camera_params_pyramid));
 
 
 	return StellarErrors::OK;
@@ -51,21 +64,42 @@ StellarErrors StellarImpl::Initialize(const StellarParams &stellar_params)
 
 StellarErrors StellarImpl::StartDevice()
 {
+	deptrum_device.OpenDevice();
+	deptrum_device.CreateStream();
+	deptrum_device.AllocateMemery();
+	deptrum_device.StartCapture();
 	return StellarErrors::OK;
 }
 
-StellarErrors StellarImpl::GetFrameData(uint16_t * output_depth_data, uint8_t *output_rgb_data)
+StellarErrors StellarImpl::GetFrames(cv::Mat &output_depth_frame, cv::Mat &output_rgb_frame)
 {
+	deptrum_device.GetFrame(output_depth_frame,output_rgb_frame);
 	return StellarErrors::OK;
 }
 
 StellarErrors StellarImpl::DestoryDevice()
 {
+	deptrum_device.DestoryDevice();
 	return StellarErrors::OK;
 }
 
-StellarErrors StellarImpl::StellarFusion()
+StellarErrors StellarImpl::StellarFusion(const cv::Mat &input_depth_mat, const cv::Mat &input_rgb_mat)
 {
+	//step 2:convert 16bit image to 32bit image
+	cv::Mat depth_image_32bit;
+	input_depth_mat.convertTo(depth_image_32bit, CV_32FC1);
+    //step :surface measurment
+	surface_measurement.Run(global_frame_data, depth_image_32bit, input_rgb_mat);
 	return StellarErrors::OK;
+}
+
+void StellarImpl::Reset()
+{
+// 	const int pyramid_levels = stellar_params->pyramid_levels;
+// 	for ()
+// 	{
+// 		global_frame_data.depth_pyramid
+// 	}
+
 }
 

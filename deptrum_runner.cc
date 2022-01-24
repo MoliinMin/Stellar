@@ -28,6 +28,8 @@ int main()
 		cv::Mat color_depth_image(depth_frame.size(),CV_8UC3, color);
 		cv::imshow("rgb_stream",rgb_frame);
 		cv::imshow("depth_stream", color_depth_image);
+
+
 		cv::waitKey(20);
 	}
 	device.DestoryDevice();

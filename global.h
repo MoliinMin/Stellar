@@ -35,14 +35,21 @@ public:
 	std::vector<GpuMat> vertex_pyramid;                              // 3D点金字塔
 	std::vector<GpuMat> normal_pyramid;                              // 法向量金字塔
 public:
-	FrameData()=default;
+	FrameData() = default;
 	~FrameData() = default;
 	FrameData &operator=(FrameData&&frame_data)noexcept
 	{
 		depth_pyramid = std::move(frame_data.depth_pyramid);
-
-	 
+		smooth_depth_pyramid = std::move(frame_data.smooth_depth_pyramid);
+		color_pyramid = std::move(frame_data.color_pyramid);
+		vertex_pyramid = std::move(frame_data.vertex_pyramid);
+		normal_pyramid = std::move(frame_data.normal_pyramid);
 	}
+// 	void Reset()
+// 	{
+// 		depth_pyramid[0].setTo(0);
+// 	
+// 	}
 
 
 };
