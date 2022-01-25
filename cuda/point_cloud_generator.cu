@@ -99,5 +99,4 @@ void ComputeNormalMap(GpuMat &output_normal_map, const GpuMat &input_vertex_map)
 
 	GpuComputeNormalMap<<<blocks,threads>>>(output_normal_map, input_vertex_map);
 	cudaThreadSynchronize(); 
-
 }

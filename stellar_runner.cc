@@ -6,6 +6,11 @@ int main()
 {
 
 	StellarParams stellar_params;
+
+	stellar_params.data_cutoff = 500;
+	stellar_params.image_height = 640;
+	stellar_params.image_width = 480;
+	/*stellar_params.*/
 	Stellar *stellar = Stellar::Create();
 	stellar->Initialize(stellar_params); 
 	stellar->StartDevice();
