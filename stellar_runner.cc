@@ -1,7 +1,8 @@
 #include "opencv2/opencv.hpp"
 #include "stellar.h"
 #include "data_types.h"
-
+#include "cuda.h"
+#include <opencv2/cudaimgproc.hpp>
 int main()
 {
 
@@ -10,6 +11,10 @@ int main()
 	stellar_params.data_cutoff = 500;
 	stellar_params.image_height = 640;
 	stellar_params.image_width = 480;
+	stellar_params.pyramid_levels = 3;
+	stellar_params.kernel_size = 5;
+	stellar_params.spatial_sigma = 1.0f;
+	stellar_params.sigma = 1.0f;
 	/*stellar_params.*/
 	Stellar *stellar = Stellar::Create();
 	stellar->Initialize(stellar_params); 
@@ -23,6 +28,11 @@ int main()
 	}
 	stellar->DestoryDevice();
 	Stellar::Destory(stellar);
+
+
+
+
+	cv::waitKey(0);
 
 	return 0;
 }

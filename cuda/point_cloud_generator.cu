@@ -1,16 +1,20 @@
 #include "point_cloud_generator.h"
 
-__global__ void GpuComputeVertexMap(PtrStep<float3>output_vertex_map,
+__global__ void GpuComputeVertexMap(PtrStep<float3> output_vertex_map,
 	                              const PtrStepSz<float> input_depth_map, 
 	                              const float data_cutoff, 
-	                              const CameraParams &camera_params)
+	                              const CameraParams camera_params)
 {
 	const int x = blockIdx.x*blockDim.x + threadIdx.x;
-	const int y = blockIdx.x*blockDim.y + threadIdx.y;
-
+	const int y = blockIdx.y*blockDim.y + threadIdx.y;
+	
+	
 	if (x >= camera_params.image_width || y >= camera_params.image_height)
+	{
+		output_vertex_map.ptr(y)[x] = make_float3(0, 0, 0);
 		return;
-
+	}
+	
 	float depth_value = input_depth_map.ptr(y)[x];
 	if (depth_value > data_cutoff) depth_value = 0;
 
@@ -18,7 +22,8 @@ __global__ void GpuComputeVertexMap(PtrStep<float3>output_vertex_map,
 	float point_y = (y - camera_params.c_y)*depth_value / camera_params.focal_y;
 
 	output_vertex_map.ptr(y)[x] = make_float3(point_x, point_y, depth_value);
-
+	//output_vertex_map.ptr(y)[x] = make_float3(0, 0, 0);
+	//output_vertex_map.ptr(y)[x] = 0;
 }
 
 __global__ void GpuComputeNormalMap(PtrStep<float3> output_normal_map, const PtrStepSz<float3> input_vertex_map)
@@ -52,7 +57,7 @@ __global__ void GpuComputeNormalMap(PtrStep<float3> output_normal_map, const Ptr
 		Cross(hor, ver, normal);
 		normalize(normal);
 		if (normal.z > 0)
-			normal = make_float3(-normal.x, normal.y, -normal.z);
+			normal = make_float3(-normal.x, -normal.y, -normal.z);
 	}
 	output_normal_map.ptr(y)[x] = normal;
 }
@@ -76,7 +81,7 @@ __device__ void normalize(float3 &input_vector)
 	input_vector = make_float3(x, y, z);
 }
 
-void ComputeVertexMap(GpuMat &output_vertex_map, const GpuMat &input_depth_map, const float data_cutoff, const CameraParams &camera_params)
+void ComputeVertexMap(GpuMat &output_vertex_map, const GpuMat &input_depth_map, const float data_cutoff, const CameraParams camera_params)
 {
 	int cols = input_depth_map.cols;
 	int rows = input_depth_map.rows;

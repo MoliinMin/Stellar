@@ -14,7 +14,9 @@ StellarErrors StellarImpl::Initialize(const StellarParams &stellar_params)
 {
 	//create camera device
 	deptrum_device.CreateDevice();
-
+	deptrum_device.OpenDevice();
+	const int pyramid_levels = stellar_params.pyramid_levels;
+	global_frame_data = FrameData(pyramid_levels);
 	//get camera params
 	cv::Mat rgb_camera_matrix, rgb_distortion_coeffs, ir_camera_matrix, ir_distortion_coeffs;
 	cv::Mat rotate_matrix, translate_matrix;
@@ -25,7 +27,7 @@ StellarErrors StellarImpl::Initialize(const StellarParams &stellar_params)
 		                           rotate_matrix,
 		                           translate_matrix);
 	//allocate camera_params pyramid memory
-	const int pyramid_levels=stellar_params.pyramid_levels;
+	//const int pyramid_levels=stellar_params.pyramid_levels;
 	depth_camera_params_pyramid.camera_params_pyramid.resize(pyramid_levels);
 	//resize camera params
 	float *distortion_params = (float *)rgb_distortion_coeffs.data;
@@ -46,6 +48,7 @@ StellarErrors StellarImpl::Initialize(const StellarParams &stellar_params)
 	//allocate gpu data
 	for (int level=0;level<pyramid_levels;++level)
 	{
+		std::cout << level << std::endl;
 		const int image_width = depth_camera_params_pyramid.camera_params_pyramid[level].image_width;
 		const int image_height = depth_camera_params_pyramid.camera_params_pyramid[level].image_height;
 		global_frame_data.depth_pyramid[level] = cv::cuda::createContinuous(image_height,image_width,CV_32FC1);
@@ -64,7 +67,7 @@ StellarErrors StellarImpl::Initialize(const StellarParams &stellar_params)
 
 StellarErrors StellarImpl::StartDevice()
 {
-	deptrum_device.OpenDevice();
+
 	deptrum_device.CreateStream();
 	deptrum_device.AllocateMemery();
 	deptrum_device.StartCapture();
@@ -90,6 +93,27 @@ StellarErrors StellarImpl::StellarFusion(const cv::Mat &input_depth_mat, const c
 	input_depth_mat.convertTo(depth_image_32bit, CV_32FC1);
     //step :surface measurment
 	surface_measurement.Run(global_frame_data, depth_image_32bit, input_rgb_mat);
+	//
+// 	cv::Mat color_image = cv::Mat::zeros(depth_camera_params_pyramid.camera_params_pyramid[0].image_height,
+// 		                                 depth_camera_params_pyramid.camera_params_pyramid[0].image_width,
+// 		                                 CV_8UC3);
+
+
+	//cv::Mat color_image;
+	//global_frame_data.depth_pyramid[0].download(color_image);
+// 
+// 	cv::imshow("color_image", color_image);
+
+//	cv::normalize();
+// 	cv::Mat depth_image = cv::Mat::zeros(depth_camera_params_pyramid.camera_params_pyramid[0].image_height,
+// 		                                 depth_camera_params_pyramid.camera_params_pyramid[0].image_width,
+// 		                                 CV_32FC1);
+	cv::Mat depth_image;
+	global_frame_data.depth_pyramid[0].download(depth_image);
+	//cv::imshow("depth_image_pyramid_0", depth_image);
+
+
+
 	return StellarErrors::OK;
 }
 

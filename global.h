@@ -44,6 +44,14 @@ public:
 		color_pyramid = std::move(frame_data.color_pyramid);
 		vertex_pyramid = std::move(frame_data.vertex_pyramid);
 		normal_pyramid = std::move(frame_data.normal_pyramid);
+		return *this;
+	}
+	FrameData(const int levels) :depth_pyramid(levels),
+		                         smooth_depth_pyramid(levels),
+		                         color_pyramid(levels),
+		                         vertex_pyramid(levels),
+		                         normal_pyramid(levels)
+	{
 	}
 // 	void Reset()
 // 	{

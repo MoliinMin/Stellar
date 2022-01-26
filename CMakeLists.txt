@@ -21,7 +21,6 @@ message(WARNING ${THIRD_PARTY_PATH}/deptrum/include)
 link_directories(${THIRD_PARTY_PATH}/deptrum/libs)
 
 set(THIRD_PARTY_LIBS  deptrum_aurora
-	                  opencv_world343
 	                  libjasper
 	                  libjpeg-turbo
 	                  libwebp
@@ -53,7 +52,8 @@ set(OPENCV_CUDA_LIBS opencv_core3414
 					 opencv_photo3414
 					 opencv_shape3414
 					 opencv_stitching3414
-					 opencv_ts3414)
+					 opencv_ts3414
+					 )
 
 include_directories(${THIRD_PARTY_PATH}/pcl/3rdParty/Eigen)
 
@@ -66,7 +66,8 @@ add_library(deptrum_device STATIC
             deptrum_device.cc
            )
 			
-target_link_libraries(deptrum_device ${THIRD_PARTY_LIBS})
+target_link_libraries(deptrum_device ${THIRD_PARTY_LIBS}
+                                     ${OPENCV_CUDA_LIBS})
 
 
 
@@ -79,6 +80,11 @@ target_link_libraries(surface_measurement ${THIRD_PARTY_LIBS}
                                           ${OPENCV_CUDA_LIBS}
                                            point_cloud_generator)
 
+add_library(view_helper STATIC view_helper.h
+                               view_helper.cc)
+
+
+target_link_libraries(view_helper  ${OPENCV_CUDA_LIBS})
 
 add_executable(deptrum_runner deptrum_runner.cc)
 
