@@ -4,6 +4,7 @@
 
 #include <opencv2/core/cuda.hpp>
 #include <opencv2/core/cuda_types.hpp>
+using namespace cv::cuda;
 using cv::cuda::GpuMat;
 
 struct CameraParams

@@ -15,9 +15,6 @@ void SurfaceMeasurement::Run(FrameData &output_frame_data, cv::Mat &input_depth_
 	output_frame_data.depth_pyramid[0].upload(input_depth_map);
 	output_frame_data.color_pyramid[0].upload(input_rgb_map);
 	//build pyramids and filter bilaterally on gpu 
-
-
-	
 	cv::cuda::Stream stream;
 	for (size_t level=1;level<pyramid_levels;++level)
 	{

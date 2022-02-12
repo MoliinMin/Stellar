@@ -28,8 +28,7 @@ int main()
 	}
 	stellar->DestoryDevice();
 	Stellar::Destory(stellar);
-
-
+	  
 
 
 	cv::waitKey(0);

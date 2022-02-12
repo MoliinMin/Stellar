@@ -20,7 +20,6 @@ __device__ void Cross(const float3  target_vector, const float3 source_vector, f
 
 __device__ void normalize(float3 &input_vector);
 
-
 void ComputeVertexMap(GpuMat &output_vertex_map, const GpuMat &input_depth_map, const float data_cutoff, const CameraParams camera_params);
 
 void ComputeNormalMap(GpuMat &output_normal_map,const GpuMat &input_vertex_map);

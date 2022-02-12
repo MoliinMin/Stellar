@@ -93,6 +93,9 @@ StellarErrors StellarImpl::StellarFusion(const cv::Mat &input_depth_mat, const c
 	input_depth_mat.convertTo(depth_image_32bit, CV_32FC1);
     //step :surface measurment
 	surface_measurement.Run(global_frame_data, depth_image_32bit, input_rgb_mat);
+
+
+
 	//
 // 	cv::Mat color_image = cv::Mat::zeros(depth_camera_params_pyramid.camera_params_pyramid[0].image_height,
 // 		                                 depth_camera_params_pyramid.camera_params_pyramid[0].image_width,
